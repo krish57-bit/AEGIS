@@ -7,6 +7,7 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![MCP](https://img.shields.io/badge/MCP-server-111827?style=flat-square)](https://modelcontextprotocol.io/)
 [![Tests](https://img.shields.io/badge/tests-13%20passing-22c55e?style=flat-square)](#tests)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 [![Tracks](https://img.shields.io/badge/Graph%20Hacks-Tracks%2001%20%C2%B7%2002%20%C2%B7%2003-f97316?style=flat-square)](https://www.wemakedevs.org/hackathons/falkordb)
 
 ## Description
@@ -43,6 +44,17 @@ Built for Graph Hacks: Context for AI Agents. Entered in all three tracks.
 | | Episodic memory, per-tenant isolation | `Episode` nodes with a vector index; dry-run-first retention that archives, never deletes; one graph per tenant via `select_graph` |
 | **03 Company Brain** | Who owns what, tracing decisions | People, teams, services, commits, ADRs, runbooks and incidents in one graph; ownership, authorship and governing ADR answered by traversal |
 | | Answers with sources | Full-text runbook search; every conclusion links back to source nodes |
+
+## Dashboard
+
+Served at `/`. Vanilla JS + SVG, no build step, no CDN.
+
+- **Topology:** services as status-colored cards laid out by dependency depth; context nodes (incident, commit, team, person, ADR, runbook, playbook, episode, investigation, tasks) as chips. Select a node to see all its links.
+- **Live graph:** refreshes after investigating and after simulating. An approved simulation shows isolated dependencies as dashed amber edges.
+- **Investigation console:** pick an incident, run the workflow, read the three persisted stages, review the proposal and its evidence.
+- **Approval gate:** Approve and Simulate stay disabled until the review checkbox is ticked and the API accepts approval.
+- **Graph capabilities:** per-algorithm availability and row counts.
+- **Agent memory and Company search:** retention preview/archive, runbook and ownership search.
 
 ## Architecture
 
@@ -249,6 +261,7 @@ backend/
   mcp_server.py     Tenant-bound MCP adapter
   seed.py           Synthetic demo data
 frontend/index.html Dashboard
+LICENSE             MIT
 tests/              test_api.py, test_integration.py
 docker-compose.yml  Pinned FalkorDB, loopback-only, persistent volume
 ```
@@ -271,6 +284,10 @@ docker-compose.yml  Pinned FalkorDB, loopback-only, persistent volume
 - [ ] Bi-temporal facts for ownership and policy
 - [ ] Per-user authentication and tenant authorization
 - [ ] Learned embeddings with versioned indexes
+
+## License
+
+[MIT](LICENSE)
 
 ## AI-assistance disclosure
 

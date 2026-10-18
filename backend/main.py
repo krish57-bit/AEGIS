@@ -12,7 +12,7 @@ from redis.exceptions import RedisError
 
 from .graph_engine import AegisGraphEngine, Conflict, NotFound, tenant_name
 
-app = FastAPI(title="AegisGraph", version="0.1.0")
+app = FastAPI(title="AEGIS", version="0.1.0")
 logger = logging.getLogger(__name__)
 
 

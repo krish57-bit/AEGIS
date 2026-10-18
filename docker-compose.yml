@@ -1,0 +1,23 @@
+services:
+  falkordb:
+    # Real release documented on the official Docker Hub image page.
+    image: falkordb/falkordb:v4.14.9
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${FALKORDB_PORT:-6379}:6379"
+    environment:
+      REDISCLI_AUTH: "${FALKORDB_PASSWORD:-}"
+      # The upstream run.sh uses REDIS_ARGS, not command-line overrides.
+      # Use a long alphanumeric password: upstream splits REDIS_ARGS on spaces.
+      REDIS_ARGS: "--dir /data --appendonly yes ${FALKORDB_PASSWORD:+--requirepass ${FALKORDB_PASSWORD}}"
+    volumes:
+      - falkordb_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep -qx PONG"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+
+volumes:
+  falkordb_data:

@@ -18,7 +18,7 @@
 
     /* polish overrides */
     .messages { position:fixed; right:22px; bottom:22px; z-index:60; width:min(360px,calc(100vw - 44px)); margin:0; }
-    .message.success { animation:toastout .35s ease 4.5s forwards; box-shadow:0 8px 24px #0008; }
+    .message.success { animation:toastout .35s ease 3s forwards; box-shadow:0 8px 24px #0008; }
     @keyframes toastout { to { opacity:0; visibility:hidden; height:0; padding:0; margin:0; border-width:0; } }
     .graph-wrap { height:auto; aspect-ratio:960/470; }
     .graph-node rect { transition:stroke-width .12s, fill .12s; } .graph-node:hover rect { fill:#1d2d38; }
@@ -135,9 +135,10 @@
       const layers=[]; services.forEach(s=>{const d=depth.get(String(s.id));(layers[d]=layers[d]||[]).push(s);});
       if(services.length)label(24,30,'SERVICE DEPENDENCIES'); if(others.length)label(640,30,'CONTEXT');
       layers.forEach((layer,d)=>{if(!layer)return;layer.forEach((node,i)=>positions.set(String(node.id),{x:84+d*152,y:70+(i+.5)*(380/layer.length),w:138,h:46,node,service:true}));});
-      others.forEach((node,i)=>positions.set(String(node.id),{x:715+(i%2)*160,y:70+Math.floor(i/2)*30,w:150,h:24,node,service:false}));
-      let unresolved=0;
-      edges.forEach(edge=>{const source=positions.get(endpoint(edge.source)),target=positions.get(endpoint(edge.target)); if(!source||!target){unresolved++;return;}
+      const MAX_CHIPS=24, hidden=Math.max(0,others.length-MAX_CHIPS); if(hidden)label(640,452,`+${hidden} more context nodes`);
+      others.slice(0,MAX_CHIPS).forEach((node,i)=>positions.set(String(node.id),{x:715+(i%2)*160,y:70+Math.floor(i/2)*30,w:150,h:24,node,service:false}));
+      let unresolved=0; const allIds=new Set(nodes.map(n=>String(n.id)));
+      edges.forEach(edge=>{const source=positions.get(endpoint(edge.source)),target=positions.get(endpoint(edge.target)); if(!source||!target){if(!allIds.has(endpoint(edge.source))||!allIds.has(endpoint(edge.target)))unresolved++;return;}
         const isDep=/DEPENDS_ON|ISOLATED_DEPENDENCY/.test(String(edge.type)); const isolated=String(edge.type)==='ISOLATED_DEPENDENCY';
         const touches=state.selectedNode===String(source.node.id)||state.selectedNode===String(target.node.id);
         if(!isDep&&!touches)return;
@@ -155,12 +156,12 @@
           const st=String(node.status||'').toLowerCase(); const sc=STATUS[st]||'#8a9aa9';
           g.append(svgElement('rect',{x:-w/2,y:-h/2,width:w,height:h,rx:9,fill:selected?'#1d2d38':'#131c25',stroke:selected?'#74e4ba':sc,'stroke-width':selected?2.2:1.4,'stroke-opacity':selected?1:.8}));
           g.append(svgElement('circle',{cx:-w/2+13,cy:-5,r:4,fill:sc}));
-          g.append(svgElement('text',{x:-w/2+24,y:-1,fill:'#e3eaf0','font-size':11,'font-weight':600,'font-family':'ui-sans-serif,sans-serif'},name.length>19?name.slice(0,18)+'…':name));
-          g.append(svgElement('text',{x:-w/2+24,y:13,fill:sc,'font-size':9.5,'font-family':'ui-monospace,monospace'},(node.status||'unknown').toUpperCase()));
+          g.append(svgElement('text',{x:-w/2+24,y:-1,fill:'#e3eaf0','font-size':12,'font-weight':600,'font-family':'ui-sans-serif,sans-serif'},name.length>19?name.slice(0,18)+'…':name));
+          g.append(svgElement('text',{x:-w/2+24,y:13,fill:sc,'font-size':10,'font-family':'ui-monospace,monospace'},(node.status||'unknown').toUpperCase()));
         } else {
           g.append(svgElement('rect',{x:-w/2,y:-h/2,width:w,height:h,rx:6,fill:selected?'#1d2d38':'#131c25',stroke:color,'stroke-width':selected?2:1,'stroke-opacity':selected?1:.55}));
           g.append(svgElement('circle',{cx:-w/2+11,cy:0,r:3.5,fill:color}));
-          g.append(svgElement('text',{x:-w/2+22,y:4,fill:'#c9d7e2','font-size':10.5,'font-family':'ui-sans-serif,sans-serif'},name.length>19?name.slice(0,18)+'…':name));
+          g.append(svgElement('text',{x:-w/2+22,y:4,fill:'#c9d7e2','font-size':11.5,'font-family':'ui-sans-serif,sans-serif'},name.length>19?name.slice(0,18)+'…':name));
         }
         g.append(svgElement('title',{},`${name} · ${kind(node)}${node.status?' · '+node.status:''}`)); g.addEventListener('click',()=>showNode(node)); g.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();showNode(node);}}); svg.append(g);
       }

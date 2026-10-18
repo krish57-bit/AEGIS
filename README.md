@@ -3,14 +3,14 @@
 # 🛡️ AegisGraph
 
 ### Stop guessing. Follow the graph.
-**Graph-native incident investigation, persisted agent handoffs, and a company brain — all in one FalkorDB graph.**
+**An agent that investigates production incidents by following a FalkorDB graph — and shows the path behind every answer.**
 
 [![FalkorDB](https://img.shields.io/badge/FalkorDB-graph%20database-7c3aed?style=for-the-badge)](https://www.falkordb.com/)
 [![Python](https://img.shields.io/badge/Python-3.14%20tested-3776ab?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![MCP](https://img.shields.io/badge/MCP-server%20included-111827?style=for-the-badge)](https://modelcontextprotocol.io/)
 [![Tests](https://img.shields.io/badge/tests-13%20passing-22c55e?style=for-the-badge)](#-tests)
-[![Hackathon](https://img.shields.io/badge/Graph%20Hacks-WeMakeDevs%20×%20FalkorDB-f97316?style=for-the-badge)](https://www.wemakedevs.org/hackathons/falkordb)
+[![Track 01](https://img.shields.io/badge/Track%2001-Agents%20That%20Act%20on%20Connected%20Data-f97316?style=for-the-badge)](https://www.wemakedevs.org/hackathons/falkordb)
 
 <br/>
 
@@ -38,7 +38,7 @@ Those are **graph questions**. AegisGraph puts topology, deployments, people, te
 
 ## 🧭 Table of contents
 
-[Why it stands out](#-why-it-stands-out) · [Architecture](#-architecture) · [Graph model](#-the-graph-model) · [Workflow](#-the-investigation-workflow) · [FalkorDB features](#-how-falkordb-is-used) · [Hackathon tracks](#-hackathon-tracks) · [Quick start](#-quick-start) · [Demo walkthrough](#-three-minute-demo-walkthrough) · [MCP](#-mcp-server) · [API](#-http-api) · [Safety](#-safety-by-design) · [Tests](#-tests) · [Config](#-configuration) · [Limitations](#-honest-limitations) · [Roadmap](#-roadmap)
+[Why it stands out](#-why-it-stands-out) · [Architecture](#-architecture) · [Graph model](#-the-graph-model) · [Workflow](#-the-investigation-workflow) · [FalkorDB features](#-how-falkordb-is-used) · [Track 01](#-hackathon-track-01--agents-that-act-on-connected-data) · [Quick start](#-quick-start) · [MCP](#-mcp-server) · [API](#-http-api) · [Safety](#-safety-by-design) · [Tests](#-tests) · [Config](#-configuration) · [Limitations](#-honest-limitations) · [Roadmap](#-roadmap)
 
 ---
 
@@ -199,13 +199,17 @@ Candidates carry a **labeled heuristic score** — not a fake "96% confidence" �
 
 ---
 
-## 🎯 Hackathon tracks
+## 🎯 Hackathon Track 01 — Agents That Act on Connected Data
 
-| Track | How AegisGraph delivers |
+Built for **Graph Hacks: Context for AI Agents** (WeMakeDevs × FalkorDB). The task: *pick a problem where the answer depends on how things connect, and build the agent that handles it.* Ours is production incident triage — "what breaks, what changed, who owns it, and what should we do?"
+
+| Track 01 focus | How AegisGraph delivers it |
 |---|---|
-| **01 · Agents that act on connected data** | Algorithms and multi-hop traversals exposed as API/MCP tools; actions are decided by graph topology and produce explainable evidence paths; the simulated action changes graph state that later analysis reflects. |
-| **02 · Agent memory & coordination** | Episodic memory in a vector index; persisted `LOCATE → SUGGEST → PROPOSE` handoffs; resume-after-interruption; evidence protection; dry-run-first retention that **archives, never deletes**; per-tenant isolation. |
-| **03 · Company brain** | People, teams, services, commits, ADRs, runbooks and incidents in one graph; "who owns / who wrote / what governs this?" answered by traversal; full-text runbook search; every conclusion traces back to source nodes. |
+| **Multi-hop reasoning** | Bounded variable-length Cypher walks from an incident to affected services, their deployments, authors, owning teams and governing ADRs. |
+| **Graph queries & algorithms as agent tools** | PageRank, betweenness, connected components, label propagation and weighted shortest paths run in FalkorDB and are exposed through the API and MCP. |
+| **Tool selection through MCP** | A tenant-bound MCP server lets any MCP-capable agent pick graph tools (`investigate_incident`, `graph_algorithms`, …) — with no raw Cypher and no approval power. |
+| **Actions based on what the graph shows** | The proposed mitigation is derived from graph topology; after human approval, a scoped simulation rewires the graph and later analysis reflects it. |
+| **Explainable results** | Every proposal carries its evidence path, applicable ADR, owner, author, blast radius and the persisted `LOCATE → SUGGEST → PROPOSE` trace. |
 
 ---
 
@@ -238,10 +242,7 @@ Tested with `falkordb==1.8.0` (client), `falkordblite==0.10.0` and the pinned Do
 
 ---
 
-## 🎬 Three-minute demo walkthrough
-
-| ⏱️ | Do this | What you're seeing |
-|---|---|---|
+--|---|
 | **0:00** | Click **Seed demo** | 19 nodes / 25 relationships load into the topology; one P0 incident appears |
 | **0:30** | Look at **Graph capabilities** | Algorithms run in-database; harmonic centrality is honestly shown as *unavailable* |
 | **0:50** | Pick the incident → **Start investigation** | `LOCATE → SUGGEST → PROPOSE` appear as persisted `AgentTask` stages |

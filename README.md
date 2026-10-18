@@ -7,7 +7,7 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![MCP](https://img.shields.io/badge/MCP-server-111827?style=flat-square)](https://modelcontextprotocol.io/)
 [![Tests](https://img.shields.io/badge/tests-13%20passing-22c55e?style=flat-square)](#tests)
-[![Track 01](https://img.shields.io/badge/Graph%20Hacks-Track%2001-f97316?style=flat-square)](https://www.wemakedevs.org/hackathons/falkordb)
+[![Tracks](https://img.shields.io/badge/Graph%20Hacks-Tracks%2001%20%C2%B7%2002%20%C2%B7%2003-f97316?style=flat-square)](https://www.wemakedevs.org/hackathons/falkordb)
 
 ## Description
 
@@ -30,17 +30,19 @@ AEGIS stores topology, deployments, people, teams, ADRs, runbooks, playbooks and
 | Frontend | Vanilla JavaScript + SVG, no build step, no CDN |
 | Tooling | Docker Compose, pytest |
 
-## Hackathon track
+## Hackathon tracks
 
-**Track 01: Agents That Act on Connected Data.**
+Built for Graph Hacks: Context for AI Agents. Entered in all three tracks.
 
-| Track focus | Implementation |
-|---|---|
-| Multi-hop reasoning | Variable-length Cypher from incident to affected services, deployments, authors, owning teams and governing ADRs |
-| Graph algorithms as agent tools | PageRank, betweenness, WCC, label propagation, weighted shortest paths via API and MCP |
-| Tool selection through MCP | Tenant-bound MCP server; no raw Cypher, no approval power |
-| Actions based on the graph | Mitigation derived from topology; approved simulation rewires the graph and later analysis reflects it |
-| Explainable results | Evidence path, ADR, owner, author, blast radius, persisted `LOCATE → SUGGEST → PROPOSE` trace |
+| Track | Focus | Implementation |
+|---|---|---|
+| **01 Agents That Act on Connected Data** | Multi-hop reasoning | Variable-length Cypher from incident to affected services, deployments, authors, owning teams and governing ADRs |
+| | Algorithms as agent tools, MCP | PageRank, betweenness, WCC, label propagation, weighted shortest paths via API and a tenant-bound MCP server |
+| | Actions and explainability | Mitigation derived from topology; approved simulation rewires the graph; every proposal carries its evidence path |
+| **02 Agent Memory and Coordination** | Shared state and handoffs | `LOCATE → SUGGEST → PROPOSE` as `AgentTask` nodes linked by `HANDOFF_TO`; each stage reads the previous one from the graph; resumes after interruption |
+| | Episodic memory, per-tenant isolation | `Episode` nodes with a vector index; dry-run-first retention that archives, never deletes; one graph per tenant via `select_graph` |
+| **03 Company Brain** | Who owns what, tracing decisions | People, teams, services, commits, ADRs, runbooks and incidents in one graph; ownership, authorship and governing ADR answered by traversal |
+| | Answers with sources | Full-text runbook search; every conclusion links back to source nodes |
 
 ## Architecture
 

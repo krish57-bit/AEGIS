@@ -22,7 +22,7 @@ never stored as successful precedents. Data is synthetic; no production command 
 All three: (1) Agents That Act on Connected Data, (2) Agent Memory and Coordination, (3) Company Brain.
 
 **4. Repository**
-`<REPO_URL>` (public; README includes setup, safety properties, limitations and the Rule 11 AI disclosure)
+`https://github.com/krish57-bit/aegisgraph-falkordb` (public; README includes setup, safety properties, limitations and the Rule 11 AI disclosure)
 
 **5. Demo video**
 `<VIDEO_URL>` (script below)

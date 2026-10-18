@@ -71,7 +71,13 @@ class AegisGraphEngine:
 
     def _q(self, tenant, query, params=None, write=False):
         g = self.get_graph(tenant)
-        result = (g.query if write else g.ro_query)(query, params or {})
+        try:
+            result = (g.query if write else g.ro_query)(query, params or {})
+        except ResponseError as exc:
+            # A tenant that has not been seeded has no graph key yet: reads are empty, not an outage.
+            if not write and "empty key" in str(exc):
+                return []
+            raise
         names = [h[1] for h in result.header]
         return [dict(zip(names, row)) for row in result.result_set]
 

@@ -119,7 +119,7 @@ pytest                                  # fast tests (tenant rules, API gating, 
 AEGIS_TEST_GRAPH=1 pytest               # + real embedded FalkorDB integration tests (needs falkordblite)
 ```
 
-Last local run: 12 passed (6 fast, 6 against embedded FalkorDB). The full workflow (seed, algorithms,
+Last local run: 13 passed (6 fast, 7 against embedded FalkorDB). The full workflow (seed, algorithms,
 investigate, approve, simulate, retention preview, search) was also run manually against the pinned
 `falkordb/falkordb:v4.14.9` container, and an MCP stdio client handshake + tool call was exercised.
 Those manual runs are not part of the automated suite.

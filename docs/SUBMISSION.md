@@ -69,7 +69,7 @@ capability-listing procedure so apps can feature-detect instead of catching erro
 | 2:10 | Re-run algorithms / shortest paths | "The path through payment is gone: the topology change is real graph state." |
 | 2:25 | Memory: retention preview → archive | "Dry run first; protected evidence is never archived." |
 | 2:40 | Company brain search + (optional) `docker exec`/Browser Cypher | "Runbooks via full-text, ownership via graph edges. Tenant graphs are isolated with select_graph." |
-| 2:55 | README safety + tests | "12 tests, 6 against real embedded FalkorDB." |
+| 2:55 | README safety + tests | "13 tests, 7 against real embedded FalkorDB." |
 
 ## Blog post draft (Dev.to / Hashnode)
 

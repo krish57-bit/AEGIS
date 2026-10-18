@@ -110,6 +110,16 @@ def test_archive_dry_run_and_protected_evidence(graph):
     assert next(m for m in e.memories(t) if m["id"] == "EP-1001")["protected"]
 
 
+def test_unseeded_tenant_reads_are_empty_not_errors(database, monkeypatch):
+    tenant = "t_" + uuid.uuid4().hex
+    monkeypatch.setenv("AEGIS_ALLOWED_TENANTS", tenant)
+    e = AegisGraphEngine(db=database)
+    assert e.graph_snapshot(tenant) == {"nodes": [], "edges": []}
+    assert e.incidents(tenant) == []
+    with pytest.raises(NotFound):
+        e.investigate(tenant, "INC-2026-901")
+
+
 def test_unique_concurrent_workflows_and_tenant_separation(graph, monkeypatch):
     e, t = graph
     with ThreadPoolExecutor(max_workers=3) as pool:
